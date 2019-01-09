@@ -1,13 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import math
-from scipy import matrix
 
-v=(5,5)#到达速率
-u=(5,5)#窗口服务速率
-M=(5,5)#柜员人数
-L=(5,5)#队列初始人数
-Mbusy=(5,5)#初始时刻正在服务的柜台数
+v=(1,1)#到达速率
+u=(1,1)#窗口服务速率
+M=(1,1)#柜员人数
+L=(1,1)#队列初始人数
+Mbusy=(1,1)#初始时刻正在服务的柜台数
 #0为银行,1为药店
 
 def randExp(v):
@@ -26,11 +24,9 @@ def simulation(a,b):
         t+=randExp(M[a]*u[a])
         Q[0]-=1
     t+=randExp(u[a])
-    print(t)
     #在a排队+接受服务所花的时间
 
     Q[1]=np.random.poisson(v[b]*t)+L[b]+Mbusy[b]-np.random.poisson(u[b]*M[b]*t)-M[b]#在a的过程中b队列发生的变化
-    #print(Q[1])
     while True:
         if(Q[1]<0):break
         t+=randExp(M[b]*u[b])
@@ -42,11 +38,16 @@ def simulation(a,b):
 
 def main():
     times=1000#模拟次数
-    total=[]#模拟结果
+    total1=[]
+    total2=[]#模拟结果
     while(times):
-        total.append(simulation(0,1))
+        total1.append(simulation(0,1))
+        total2.append(simulation(1,0))
         times-=1
-    print(sum(total)/len(total))
+    print('先去银行得到总时间：')
+    print(sum(total1)/len(total1))
+    print('先去药店得到总时间：')
+    print(sum(total2)/len(total2))
 
 if(__name__=='__main__'):
     main()
